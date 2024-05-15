@@ -11,10 +11,31 @@
 \usepackage{caption}
 \usepackage{pdfpages}
 \usepackage{url}
-\usepackage{MnSymbol,wasysym}
+\usepackage{wasysym}
 \usepackage{xcolor}
+\usepackage{amssymb}
+
+
+
+\usepackage{amsmath}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+\numberwithin{equation}{section}
+
+\usepackage{enumitem}
+\usepackage{listings}
+
+\usepackage[acronym,nonumberlist]{glossaries}
+\makeglossaries
+
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\[0.3cm]}
+
+
 
 \begin{document}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
 
 \captionsetup[figure]{margin=1.5cm,font=small,labelfont={bf},name={Figure},labelsep=colon,textfont={it}}
 \captionsetup[table]{margin=1.5cm,font=small,labelfont={bf},name={Table},labelsep=colon,textfont={it}}
@@ -31,7 +52,7 @@
 \begin{center}
 {\LARGE University of Bari ``Aldo Moro''}\\[0.25cm]
 {\Large Department of Computer Science}\\[1cm]
-{\large \emph{A thesis submitted in partial fulfillment of the requirements for the\\Degree of Bachelor of Science in\\Computer Science and Technologies for Software Production}}\\[2.5cm]
+{\large \emph{A thesis submitted in partial fulfillment of the requirements for the\\Degree of Bachelor of Science in\\[1cm]Computer Science and Technologies for Software Production}}\\[2.5cm]
 \linespread{1.2}\huge {\bfseries Insert Your Title Here}\\[1.5cm]
 \linespread{1}
 \includegraphics[width=3.5cm]{images/uniba-logo.png}\\[1.5cm]
@@ -80,6 +101,10 @@ Prof. Corrado Mencar\\[1cm]
 \listoffigures
 \listoftables
 
+\glsaddall
+\printglossary[type=\acronymtype,title=List of Abbreviations]
+\printglossary[title=List of Symbols]
+
 % -------------------------------------------------------------------
 % Main sections (as required)
 % -------------------------------------------------------------------
@@ -97,7 +122,7 @@ Prof. Corrado Mencar\\[1cm]
 % Bibliography
 % -------------------------------------------------------------------
 
-\bibliographystyle{plainnat}
+\bibliographystyle{unsrtnat}
 \bibliography{main} 
 
 % -------------------------------------------------------------------
