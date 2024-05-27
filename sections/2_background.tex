@@ -10,7 +10,7 @@ The process of selecting the right Hyperparameters configuration is called “Hy
 
 % \myparagraph{Reason for Tuning Hyperparameters:}
 The Hyperparameters allow Machine Leaning models to be customized, or tuned, for specific tasks or datasets \cite{Tesi-1.6}.
-Basically, one important aspect of Hyperparameters is to allow a particular ML model to be reused in different situations and different datasets.
+Basically, one important aspect of Hyperparameters is to allow a particular ML model's architecture to be reused in different situations and different datasets.
 \\[0.3cm]Generally, what each Hyperparameter does when considered alone is known; but it is hard to predict what the best combination of Hyperparameters is the best for a specific problem or specific dataset.
 %
 %
@@ -71,7 +71,7 @@ The Pruner decides how to allocate the computational budget and when to stop a T
 A Sampler, or Searcher, or Search Algorithm, in HPO is the component of the HPO algorithm which selects (“samples”) the next candidate configurations to try and evaluate.
 Simple Samplers like Grid Sampler (for Grid Search) and Random Sampler (for Random Search) just select candidates sequentially and randomly respectively; more complex Samplers, used for example in Bayesian Optimization, make the decision based on previous trials.
 \\[0.3cm]In the making of the choice of the Sampler, it is important to understand that Hyperparameters not always have the same importance in the results of the model. Also, some Samplers are more effective with certain models than others. (See Fig.~\ref{fig:figure-2.1.1})
-\\[0.3cm]In HPO, the “importance” of an Hyperparameter over one other, is the relative power it has in determining the final value of the Objective Function; the more a Hyperparameter is important, the most impact a change of his value will influence the score.
+\\[0.3cm]In HPO, the “importance” of an Hyperparameter over one other, is the relative power it has in determining the final value of the Objective Function; the more a Hyperparameter is important, the most impact a change of its value will influence the score.
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=11cm]{figures/figure-2.1.1.png}
@@ -716,8 +716,8 @@ Alternatives to ReLU are Maxout and Swish, which while they do resolve some prob
 
 \subsection{HPO Algorithms applied to Neural Networks}
 
-It follows an overview on potential of each Major HPO algorithms category and their applicability for DNNs.
-\\[0.3cm]A brief summary of the most important HPO algorithms, with advantages, disadvantages and applicability for Neural Networks, is showed in the following table: Fig.~\ref{fig:figure-2.6.1}
+% An overview on potential of each Major HPO algorithms category and their applicability for DNNs.
+A brief summary of the most important HPO algorithms, with advantages, disadvantages and applicability for Neural Networks, is showed in the following table: Fig.~\ref{fig:figure-2.6.1}
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=15cm]{figures/figure-2.6.1.png}
