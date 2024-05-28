@@ -653,22 +653,22 @@ Neural Networks, especially Deep Neural Networks, are the most complex type of M
 
 \subsection{Main Hyperparameters for Neural Networks}
 
-Hyperparameters, especially when talking about Neural Networks, can be divided into two categories: Hyperparameters for Training, and Hyperparameter for model design (Table~\ref{tab:table-2.6.1}). The most important Hyperparameters for both categories in Neural Networks are reported in the table.
+Hyperparameters, especially when talking about Neural Networks, can be divided into two categories: Hyperparameters for Training, and Hyperparameter for model design (Tab.~\ref{tab:table-2.6.1}). The most important Hyperparameters for both categories in Neural Networks are reported in the table.
 % \\[0.3cm]In Neural Networks, the most used Training related Hyperparameters are: Learning Rate, Batch-size, Activation Function, Optimizer (algorithm to update the weights, e.g. Gradient Descent, Adam). (Table~\ref{tab:table-2.6.1})
 % \\[0.3cm]In Neural Networks, the most used Model-Design related Hyperparameters are: Number of Hidden Layers, Width of Layers. (Table~\ref{tab:table-2.6.1})
 \begin{table}[ht!]
 	\center
 	\setlength{\tabcolsep}{0.5cm}
 	\caption[Common Hyperparameters in Neural Networks]{Table showing the most common Hyperparameters in Neural Networks and their suggested ranges of values.}
-	\begin{tabular}{c c c c}
-	Name & Type & Hyperparameter Range & log-scale\\[0.1cm]
-	\hline\\[0.1cm]
-	learning rate & float & $[10^{-6}, 10^{-1}]$ & yes\\[0.2cm]
-	batch size & integer & $[8, 256]$ & yes\\[0.2cm]
-	momentum & float & $[0, 0.99]$ & no\\[0.2cm]
-	activation function & categorical & $\{$relu, sigmoid, tanh$\}$ & -\\[0.2cm]
-	number of units & integer & $[16, 1024]$ & yes\\[0.2cm]
-	number of layers & integer & $[1, 6]$ & no\\[0.2cm]
+	\begin{tabular}{@{}llcc@{}}
+		\toprule
+		\textbf{Name}       & \textbf{Type} & \multicolumn{1}{l}{\textbf{Hyperparameter Range}} & \multicolumn{1}{l}{\textbf{log-scale}} \\ \midrule
+		learning rate       & float         & {[}$10^{-6}$, $10^{-1}${]}                        & yes                                    \\[0.1cm]
+		batch size          & integer       & {[}8, 256{]}                                      & yes                                    \\[0.1cm]
+		momentum            & float         & {[}0, 0.99{]}                                     & no                                     \\[0.1cm]
+		activation function & categorical   & \{relu, sigmoid, tanh\}                           & -                                      \\[0.1cm]
+		number of units     & integer       & {[}16, 1024{]}                                    & yes                                    \\[0.1cm]
+		number of layers    & integer       & {[}1, 6{]}                                        & no                                     \\ \bottomrule
 	\end{tabular}
 	\label{tab:table-2.6.1}
 \end{table}

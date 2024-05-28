@@ -1,6 +1,6 @@
-\chapter{Methodology}\label{sec:methodology}
+\chapter{Methodology}\label{sec:Chapter3-Methodology}
 
-This methodology chapter serves to introduce strategies, implementations, models and approaches which are put into practice in the Experiments chapter (Chapter~\ref{sec:results}). Therefore, it will include:
+This methodology chapter serves to introduce strategies, implementations, models and approaches which are put into practice in the Experiments chapter (Chapter~\ref{sec:Chapter4-Results}). Therefore, it will include:
 \begin{itemize}[itemsep=0.1cm]
     \item \textbf{Particle Swarm Optimization:} an explanation of the most important of the sampling techniques utilized in the experiments.
     \item \textbf{Custom Implementation of PSO:} a detailed description of the design of the custom implmentation of the algorithm, and some insights on the actual code implementation.
@@ -41,7 +41,7 @@ After a certain number of iterations, the maximum (or minimum) value found as Gl
 
 At the start of each iteration, each Particle has a position $x_i(t)$ and a velocity $v_i(t)$.
 
-\myparagraph{Update of Particles:}\label{sec:hyperlink-2}
+\myparagraph{Update of Particles:}\label{sec:UpdateOfParticles-3.1.1}
 At the next iteration, the update function will update the position and velocity of a Particle applying the following rules:
 \begin{equation}
 	v_i(t+1) = \alpha v_i(t) + \beta_1(x_i^{(local)}(t) - x_i(t)) + \beta_2(x^{(global)}(t) - x_i(t))
@@ -251,7 +251,7 @@ The Particle Swarm Optimization is a popular and effective optimization techniqu
 % \myparagraph{Discrete PSO (DPSO):}
 % Discrete PSO (DPSO) makes the performance of optimization better, for example using mixed search approach \cite{Tesi-3.5}.
 
-\section{Custom Implementation of PSO}\label{sec:hyperlink-1}
+\section{Custom Implementation of PSO}\label{sec:CustomImplementationOfPSO-3.2}
 
 Particle Swarm Optimization, as described in the last section, is a powerful and successful Optimization algorithm, that can also be applied to HPO.
 In the last years there have been developed many libraries for PSO, for instance, PySwarm, which is probably the most popular.
@@ -329,13 +329,13 @@ One instance of the \texttt{PSO} class carries on a whole optimization process, 
 %
 % \myparagraph{Methods:}
 The methods of the \texttt{PSO} class, excluding the private or less important methods, are the following: \texttt{optimize()}, \texttt{inertia\_factor\_update()}, \texttt{cognitive\_factor\_update()}, \texttt{social\_factor\_update()}.
-The three update methods are implemented using the formulas explained in the Particle Swarm Optimization section (Sec.~\ref{sec:hyperlink-2}).
+The three update methods are implemented using the formulas explained in the Particle Swarm Optimization section (Sec.~\ref{sec:UpdateOfParticles-3.1.1}).
 \\[0.3cm]The \texttt{optimize()} method is where the actual PSO algorithm takes place. Here is where the optimization loop happens. The first level loop iterates over the maximum number of generations, then the inner loop iterates over each particle of the swarm.
 After the particle is evaluated during a determined generation, and thus in a determined position, two checks are made to determine if the current result is better than the local and global better results.
 Finally, at the end of a generation, each particle is updated using its update methods, which the values for $w$, $c_1$ and $c_2$ obtained from the three update methods mentioned earlier.
 At the end of the whole loop, the method ends, returning the best global hyperparameters and the best global score.
 
-\section{Enhancing Optuna Optimization}
+\section{Enhancing Optuna Optimization}\label{sec:EnhancingOptuna-3.3}
 
 Hyperparameter Optimization is expensive, and tools like Optuna not only exists to make the process more efficient but also to simplify the setup of the optimization.
 Nevertheless, especially when the experiments grow in complexity, even tools like Optuna start to show weaknesses and robustness problems.
@@ -411,15 +411,15 @@ As mentioned earlier, the proposed experiments create and run multiple optimizat
 % \myparagraph{model\_utils.py:}
 % Arguably the most important of this list, contains various functions, called in the objective function, which allow to initialize the components of the optimization (Loss Function, Model HPs, Training HPs) using the converted values sampled of HPs sampler by Optuna.
 
-\subsection{Custom Optuna PSO Sampler}
-As mentioned in the section of the Custom PSO Implementation (Sec.~\ref{sec:hyperlink-1}), one alternative approach to HPO using PSO, was to integrate a PSO algorithm in Optuna as a Sampler.
+\subsection{Custom Optuna PSO Sampler}\label{sec:CustomOptunaPSOSampler-3.3.2}
+As mentioned in the section of the Custom PSO Implementation (Sec.~\ref{sec:CustomImplementationOfPSO-3.2}), one alternative approach to HPO using PSO, was to integrate a PSO algorithm in Optuna as a Sampler.
 \\[0.3cm]Optuna allows developers to define to new Samplers. In order to do this, the custom sampler should inherit from the class \texttt{BaseSampler} of Optuna and override some methods.
 \\[0.3cm]The code described in this section refers to the \texttt{/utils/optuna\_utils/pso\_sampler.py} file of the code repository \cite{Repository-THESIS}.
 
 \subsubsection{Initialization}
 The Sampler requires two initialization parameters, which are the number of particles, and the number of generations. 
 Even if at the current state of the implementation there are no integrity checks, these values should be compatible with number of trials to execute, which is a parameter of the Study running function of Optuna. 
-\\[0.3cm]As soon as the first trial starts the Swarm is initialized; it is a list of Particles, where a Particle is defined in the same exact way described in the section of Custom Implementation of PSO (Sec.~\ref{sec:hyperlink-1}).
+\\[0.3cm]As soon as the first trial starts the Swarm is initialized; it is a list of Particles, where a Particle is defined in the same exact way described in the section of Custom Implementation of PSO (Sec.~\ref{sec:CustomImplementationOfPSO-3.2}).
 \\[0.3cm]Until a trial is completed or pruned, Optuna calls the \texttt{sample\_indipendent()} method, which samples the value for the hyperparameters randomly with a \texttt{RandomSampler}.
 \\[0.3cm]After the completion of the first trial, the Search Space is also initialized. The Search Space cannot be initiated earlier by Optuna because the current possible values ranges of the Hyperparameters are unknown to Optuna before running the Objective Function at least once.
 
@@ -431,7 +431,7 @@ At the start of each Trial, the \texttt{before\_trial()} method is called. There
 \subsubsection{After Trial}
 
 At the end of each trial, the \texttt{after\_trial()} method is called.
-The Particle associated to the Trial is updated; the values for $w$, $c_1$ and $c_2$ are obtained in the same way described in the section of Custom Implementation of PSO (Sec.~\ref{sec:hyperlink-1}).
+The Particle associated to the Trial is updated; the values for $w$, $c_1$ and $c_2$ are obtained in the same way described in the section of Custom Implementation of PSO (Sec.~\ref{sec:CustomImplementationOfPSO-3.2}).
 Local and Global best positions and score are also checked and eventually updated.
 
 \section{Applied Neural Network Models}
@@ -459,7 +459,7 @@ Both the Architecture and the Activation Function are initialization inputs.
 \end{figure}
 \\[0.3cm]This implementation of MLP refers to the file \texttt{/utils/model/MLP.py} of the code repository \cite{Repository-THESIS}.
 
-\subsubsection{Lawin}
+\subsubsection{Lawin}\label{sec:Lawin-3.4.1.2}
 
 Lawin is complex Deep Learning model, in particular is a Vision Transformer, specialized in Semantic Segmentation and applied for Drone Vision problems.
 Lawin was developed for this article \cite{WeedMap-PaperThesis}, and its implementation can be found in the relative repository \cite{WeedMap-Repository}.
