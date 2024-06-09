@@ -37,15 +37,15 @@ Given the first goal of the experiment, the idea is to realize a simple implemen
 \\[0.3cm]The first part of the experiment consist in recreating another ML experiment which does not apply HPO and evaluate its results. Successively, the hyperparameters of that same ML model will be optimized with the custom Grid Search.
 \\[0.3cm]The experiment chosen for comparison is the one proposed by the book “Dive Into Deep Learning” \cite{Tesi-1.6} (chapter 4 of the book). Some modifications have been made to this experiment: firstly, a simpler version of the proposed dataset is used, then the Multi-Layer Perceptron (MLP) considered is implemented with vanilla Python rather than PyTorch.
 
-\myparagraph{Dataset of the Experiment:}
-The Dataset considered for the experiment is a simplified version of MNIST, specifically, the version included in scikit-learn \cite{scikit-learn}, from the function \texttt{load\_digits()} of the dataset module. (An explanation of the complete MNIST dataset is in the following experiment; for this preliminary experiment is not necessary to understand the dataset).
+\subsubsection{Dataset of the Experiment:}
+The Dataset considered for the experiment is a simplified version of MNIST, specifically, the version included in scikit-learn \cite{scikit-learn}, from the function \texttt{load\_digits()} of the \texttt{dataset} module. (An explanation of the complete MNIST dataset is in the following experiment; for this preliminary experiment is not necessary to understand the dataset).
 
-\myparagraph{Choice of Model and Hyperparameters:}
+\subsubsection{Model and Hyperparameters of the Experiment:}
 As introduced earlier, the MLP model utilized is not the same as the one from the book. This is not detrimental to the scientific value of the experiment, as the considered hyperparameters and configuration of the model were the same proposed in the book, so that a comparison would still be possible.
 
-\myparagraph{Implementation of Grid Search:}
+\subsubsection{Implementation of Grid Search:}
 The proposed implementation of Grid Search is completely made from scratch.
-The algorithm takes as input the model, the dataset and the grid of hyperparameters; the grid is a Python \texttt{dict}, where \texttt{keys} are \texttt{str} which represent the name of the hyperparameter, and \texttt{values} are \texttt{list} which contain the values that the corresponding hyperparameter can be.
+The algorithm takes as input the model, the dataset and the grid of hyperparameters; the grid is a map object, where the keys are strings which represent the name of the hyperparameter, and the values are lists which contain the values that the corresponding hyperparameter can be.
 \\[0.3cm]At the start of the algorithm, a Cartesian Product in applied on the lists inside the \texttt{param\_grid}, basically generating all the trials that are going to be evaluated.
 For each trial, the model is initialized with the hyperparameters of that trial and is evaluated; the results are saved in a variable.
 After having completed all the trials, the algorithm returns as output the variable containing all the results, from which it can be obtained the best trial.
@@ -90,9 +90,9 @@ The custom Grid Search algorithm is executed with the \texttt{param\_grid} in th
 
 \subsection{Discussion of the Results}
 
-This simple experiment with its results outlines how hyperparameter optimization, even when using an simple implementation of the weakest algorithm, could lead to a signification improvement in the performance of the trained model.
+This simple experiment with its results outlines how hyperparameter optimization, even when using a simple implementation of the weakest algorithm, could lead to a significant improvement in the performance of the trained model.
 \\[0.3cm]The gained 1.6\% accuracy on the Test Set may seem a little improvement, but is remarkable, especially when the dataset is composed by a very large number of observations.
-\\[0.3cm]These results, additionally, also confirm another aspect of HPO, that is the ability of improving the performance of an experiment without interfering with the model or the dataset.
+\\[0.3cm]These results, additionally, confirm another aspect of HPO, that is the ability of improving the performance of an experiment without interfering with the model or the dataset.
 
 \section{Experiment 2 - Comparison of Optuna's Samplers on MNIST}\label{sec:Experiment2-4.2}
 
@@ -169,21 +169,21 @@ Given its extreme simplicity to both use and understand, MNIST has inspired nume
 
 \subsection{Preparation of the Experiment}
 
-The preparation for the experiment is simple: using the code infrastructure described in in Methodology chapter, specifically the section of Optuna Enhancing (Sec.~\ref{sec:EnhancingOptuna-3.3}), an Optuna's Study object is created and run.
-\\[0.3cm]The MNIST dataset was imported through the MNIST package of Pytorch, included in torchvision, and then loaded with PyTorch data loaders.
+The preparation for the experiment is simple: using the code infrastructure described in Methodology chapter, specifically the section of Optuna Enhancing (Sec.~\ref{sec:EnhancingOptuna-3.3}), an Optuna's \texttt{Study} object is created and run.
+\\[0.3cm]The MNIST dataset was imported through the \texttt{MNIST} package of Pytorch, included in torchvision, and then loaded with PyTorch data loaders.
 
 \subsubsection{Setup of the Studies}
 
 % \myparagraph{Initialize the Studies:}
 The Samplers of Optuna subject of this experiment are the following: \texttt{RandomSampler}, \texttt{TPESampler}, \texttt{CmaEsSampler}, \texttt{GPSampler}, \texttt{NSGAIISampler}, \texttt{PartiallyFixedSampler}, \texttt{QMCSampler}.
 For each of the Samplers, an Optuna \texttt{Study} is created. All the samplers are initialized with their default input values.
-\\[0.3cm]The Pruner utilized for each Study is the Hyperband, initialized with its default input values.
+\\[0.3cm]The Pruner utilized for each Study is the Hyperband (\texttt{HyperbandPruner} object in Optuna), initialized with its default input values.
 
 \subsubsection{Setup of the Objective Function}
 
 % \myparagraph{Objective Function:}
 The objective function, obviously the same for each Study, is divided into three sections: Declaration of the Hyperparameter to optimize and their value ranges; Initialization of the Model and related objects; Training and Evaluation of the model.
-\\[0.3cm]At the execution of each trial, for each hyperparameter, a value is sampled by Optuna's Sampler, then those value are used to initialize the Model and its related objects, training included, and the training loop can start. The value then returned will be the score.
+\\[0.3cm]At the execution of each trial, for each hyperparameter, a value is sampled by Optuna's Sampler, then those values are used to initialize the Model and its related objects, training included, and the training loop can start. The value then returned will be the score.
 % 
 % \myparagraph{Search Space of Hyperparameters:}
 \\[0.3cm]The Hyperparameters declared in the objective function, which form the Search Space of the Study, for this experiment were the following (Tab.~\ref{tab:table-4.2.1}).
@@ -261,7 +261,7 @@ It is not completely clear why this sampler produces results equivalent to the \
 \subsubsection{PartiallyFixedSampler}
 
 The \texttt{PartiallyFixedSampler} was failing in the first execution because, as the name suggests, is a type of sampler which requires some hyperparameters of the defined Search Space to be fixed.
-\\[0.3cm]The choice was not to further continue using this sampler, as the objective of the esperiment is to evaluate the sampling technique rather than to actually find the best hyperparameters values, ore correlations in the Search Space.
+\\[0.3cm]The choice was not to further continue using this sampler, as the objective of the experiment is to evaluate the sampling technique rather than to actually find the best hyperparameters values, or correlations in the Search Space.
 Therefore, this Sampler will be discarded.
 
 \subsubsection{QMCSampler}
@@ -303,20 +303,20 @@ It is vital to note that, given the simplicity of the dataset, in some execution
 
 \subsubsection{Analysis of the Failed Samplers}
 
-For what regards the two failed sub-experiments, which are, the studies using respectively \texttt{CmaEsSampler} and \texttt{PartiallyFixedSampler}, for the sake of simplicity, these samplers will be discarded.
-In order to conduct the next experiments, it was already necessary to identify the best samplers in order to discard the worst ones; so, discarding the failing samplers is the least time-consuming solution.
+With regard to the two failed sub-experiments, which are, the studies using respectively \texttt{CmaEsSampler} and \texttt{PartiallyFixedSampler}, for the sake of simplicity, these samplers will be discarded.
+In order to conduct the next experiments, it was already necessary to identify the best samplers to discard the worst ones; so, discarding the failing samplers is the least time-consuming solution.
 
 \subsubsection{Analysis of the Worst Performing Samplers}
 
-For what regards the performance of \texttt{GPSampler}, \texttt{NSGAIISampler} and \texttt{QMCSampler}, one possible hypothesis for the reason their results are equivalent to \texttt{RandomSampler}, is the simplicity of the dataset and the model.
-\\[0.3cm]The hypothesis is, given that, as mentioned above, there is only one impactful hyperparameter, it is unlikely for this more complex sampling algorithms to find correlation in the Search Space, making the search partially unsuccessful.
+As for the performance of \texttt{GPSampler}, \texttt{NSGAIISampler} and \texttt{QMCSampler}, one possible hypothesis for the reason their results are equivalent to \texttt{RandomSampler}, is the simplicity of the dataset and the model.
+\\[0.3cm]The hypothesis is, given that, as mentioned above, there is only one impactful hyperparameter, it is unlikely for these more complex sampling algorithms to find correlations in the Search Space, making the search partially unsuccessful.
 Therefore, for the next experiments, these three samplers will be discarded.
 
 \subsubsection{Analysis of the Best Samplers}
 
 The best results were obtained by the Study using \texttt{TPESampler}. The trend in the results suggests that the \texttt{TPESampler} is actually learning for the past trials throughout the optimization process, as the best results are mostly in the later stages of the optimization.
-\\[0.3cm]Therefore, for what regards the first objective of the experiment, can be concluded that \texttt{TPESampler} can be used for the other experiments. Together with \texttt{TPESampler}, also \texttt{RandomSampler} can be used, because it did not show any unexpected behaviour and can thus be applied to make first assessments.
-\\[0.3cm]In conclusion, now that the best performing samplers are well-established, in the next experiments they can be used as a tool for comparison with other new sampling techniques. 
+\\[0.3cm]Therefore, with regard to the first objective of the experiment, it can be concluded that \texttt{TPESampler} can be used for the other experiments. Together with \texttt{TPESampler}, also \texttt{RandomSampler} can be used, because it did not show any unexpected behaviour and can thus be applied to make first assessments.
+\\[0.3cm]In conclusion, now that the best performing samplers are well-established, in the next experiments they can be utilized as a tool of comparison with other new sampling techniques. 
 
 \subsubsection{Analysis of the Best NN Architectures}
 
@@ -335,8 +335,8 @@ The hardware which was utilized to run this experiment is the same as Experiment
 
 \subsection{Preparation of the Experiment}
 
-The preparation for the experiment is similar to Experiment 2 (Sec.~\ref{sec:Experiment2-4.2}): the Studies related to the samplers of Optuna continue to be initialized with the “wrapping”, whereas the Study for the custom PSO is initialized separately, although the process is basically the same, given that is supposed to be a sort of replica of Optuna. 
-\\[0.3cm]The MNIST dataset was imported through the MNIST package of Pytorch, included in torchvision, and then loaded with PyTorch data loaders.
+The preparation for the experiment is similar to Experiment 2 (Sec.~\ref{sec:Experiment2-4.2}): the Studies related to the samplers of Optuna continue to be initialized with the “wrapping”, whereas the Study for the custom PSO is initialized separately. Nevertheless, the process is basically the same, given that is supposed to be a sort of replica of Optuna. 
+\\[0.3cm]The MNIST dataset was imported through the \texttt{MNIST} package of Pytorch, included in torchvision, and then loaded with PyTorch data loaders.
 
 \subsubsection{Setup of the Studies}
 
@@ -344,7 +344,7 @@ The preparation for the experiment is similar to Experiment 2 (Sec.~\ref{sec:Exp
 The Samplers of Optuna subject of this experiment are the following: \texttt{RandomSampler}, \texttt{TPESampler}.
 For each of the Samplers, an Optuna \texttt{Study} is created. All the samplers are initialized with their default input values.
 The Study of the custom PSO is called \texttt{PSO\_optimization}.
-\\[0.3cm]As a result of lack of scientific comparability between the two approaches was the pruning mechanism involved for both, the Pruner is disabled.
+\\[0.3cm]As a result of the subsequent lack of scientific comparability between the two approaches, if the pruning mechanism was involved for both, the Pruner is disabled.
 
 \subsubsection{Setup of the Objective Function}
 
@@ -413,12 +413,12 @@ The best score achieved by the custom PSO algorithm is 93\%, there are 123 trial
 
 \subsection{Discussion of the Results}
 
-The results of the experiment permit to safely conclude that the proposed adaptation of PSO to HPO was successful and is also perfectly comparable with the results from the Studies of Optuna.
+The results of the experiment allow to safely conclude that the proposed adaptation of PSO to HPO was successful and is also perfectly comparable with the results from the Studies of Optuna.
 
 \subsubsection{Analysis on the Custom PSO Results}
 
 The results presented by the \texttt{PSO\_optimization} Study, allow to establish that the algorithm is working as intended, the process is learning from the past Trials.
-Analysing the results, it appears evident that the best scores have been obtained at the latest generations, outlining how the Particles are correctly closing their distance with the global optimum by the passing of time.
+Analysing the results, it appears evident that the best scores have been obtained at the latest generations, outlining how the Particles are correctly closing their distance with the global optimum over time.
 
 \subsubsection{Analysis of the Comparison with Optuna}
 
@@ -432,15 +432,15 @@ In the previous experiment, a custom implementation of PSO external to Optuna wa
 \\[0.3cm]This experiment instead, aims to test, evaluate and compare the \texttt{PSOSampler}, a Sampler developed within Optuna which implements the PSO algorithm, described in the Methodology chapter, in the related section (Sec.~\ref{sec:CustomOptunaPSOSampler-3.3.2}).
 \\[0.3cm]In this way, the results will be already perfectly comparable to the ones of the native samplers of Optuna. The same exact code infrastructure utilized for the Studies of Optuna, can be used also for the Study which uses the \texttt{PSOSampler}.
 \\[0.3cm]The experiment divides in two sub-experiments, with the same approach and same goals. The only difference between the two is that in the first Pruning is disable, in the second is enabled.
-\\[0.3cm]As the goal of the experiment is primarily to compare a new technique to existent technique, and therefore would be excessive to operate on a complex expensive problem, a simple dataset is considered, which again is MNIST.
+\\[0.3cm]As the goal of the experiment is primarily to compare a new technique to existent techniques, and therefore would be excessive to operate on a complex expensive problem, a simple dataset is considered, which again is MNIST.
 
 \myparagraph{Hardware used for the Experiment:}
 The hardware which was utilized to run this experiment is the same as Experiment 2 (Sec.~\ref{sec:Experiment2-4.2}).
 
 \subsection{Preparation of the Experiment}
 
-The preparation for the experiment is very similar to Experiment 2 (Sec.~\ref{sec:Experiment2-4.2}): the fact that now \texttt{PSOSampler} has indeed become a Sampler of Optuna, initializing its related \texttt{Study} object is the same procedure as the standard Studies of Optuna; they continue to be initialized with the “wrapping”.
-\\[0.3cm]The MNIST dataset was imported through the MNIST package of Pytorch, included in torchvision, and then loaded with PyTorch data loaders.
+The preparation for the experiment is very similar to Experiment 2 (Sec.~\ref{sec:Experiment2-4.2}): now \texttt{PSOSampler} has become a Sampler of Optuna, thus initializing its related \texttt{Study} object is the same procedure as the standard Studies of Optuna; they continue to be initialized with the “wrapping”.
+\\[0.3cm]The MNIST dataset was imported through the \texttt{MNIST} package of Pytorch, included in torchvision, and then loaded with PyTorch data loaders.
 
 \subsubsection{Setup of the Studies}
 
@@ -496,7 +496,7 @@ The objective function, as always, is the same for each Study. The structure of 
 
 \subsection{Execution of the Experiment}
 
-The execution of each Study is handled by an \texttt{OptunaRunner} object for Optuna, which at the end of the optimization process save the results on a csv file.
+The execution of each Study is handled by an \texttt{OptunaRunner} object for Optuna, which at the end of the optimization process saves the results on a csv file.
 \\[0.3cm]The number of Trials executed for each Study was 256.
 \\[0.3cm]In the reporting of the results, the information regarding what the best hyperparameters values are will be ignored, because it is not the focus of the experiment, which is to identify how well performing the various techniques are.
 
@@ -514,13 +514,13 @@ The best score achieved by the \texttt{RandomSampler} is 90.6\%; there are 29 tr
 
 \subsection{Discussion of the Results}
 
-The results of the experiment, in the first place, demonstrated the validity of the \texttt{PSOSampler}, showing that it works as supposed, is perfectly integrated in Optuna, being executed without errors and reaching good results.
-Another really positive outcome, is the confirmation of the applicability of PSO to Hyperparameter Optimization. This experiment further proved what was already being suggest by the previous one. 
+The results of the experiment, in the first place, demonstrated the validity of the \texttt{PSOSampler}, showing that it works as supposed and is perfectly integrated in Optuna, being executed without errors and reaching good results.
+Another really positive outcome, is the confirmation of the applicability of PSO to Hyperparameter Optimization. This experiment further proved what was already being suggested by the previous one. 
 
 \subsubsection{Analysis of the Results of PSOSampler}
 
 The \texttt{PSOSampler} is clearly working as intended, and the implementation of a custom sampler within Optuna has revealed successful.
-The \texttt{PSOSampler}, as confirmed by the results, obtained top-level results. Finding the best among possible candidate solutions for the given problem.
+The \texttt{PSOSampler}, as confirmed by the results, obtained top-level results; finding the best among possible candidate solutions for the given problem.
 
 \subsubsection{Analysis of the Comparison with Optuna}
 
@@ -614,7 +614,7 @@ The hardware which was utilized to run this experiment is the following:
 
 Weed Map Dataset is the dataset for the research “WeedMap: A large-scale semantic weed mapping framework using aerial multispectral imaging and deep neural network for precision farming” \cite{Tesi-2.1}.
 \\[0.3cm]Each picture of the Dataset shows an image of a cultivated field, where there can been distinguished Dirt, Weeds and Crops.
-\\[0.3cm]The image below (Fig.~\ref{fig:figure-4.5.1}) is an example on one of the images. It is first showed the entire Orthomosaic Map, and then different zoom levels. This puts in evidence the large scale of the image and the difficulty in distinguishing between Crops and Weeds.
+\\[0.3cm]The image below (Fig.~\ref{fig:figure-4.5.1}) is an example on one of the images. It is first showed the entire Orthomosaic Map, and then different zoom levels. This highlights the large scale of the image and the difficulty in distinguishing between Crops and Weeds.
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=14cm]{figures/figure-4.5.1.png}
@@ -668,8 +668,8 @@ The Groundtruth images are utilized to evaluate the precision of each prediction
 \subsection{Preparation of the Experiment}
 
 This experiment is partially different from the previous experiments. All studies continue to be initialized with the “wrapping”.
-\\[0.3cm]The architectures with which initialized the NN are no longer built inside the objective function, and thus needs to be defined earlier. The architectures subject of this experiment are defined in the same article in which the original experiment of Weed Mapping was proposed \cite{WeedMap-PaperThesis}. During the experiment, those architecture will be referenced as “backbone”.
-\\[0.3cm]The Weed Map dataset was loaded using pre-defined function mentioned in their related section of the Methodology chapter (Sec.~\ref{sec:Lawin-3.4.1.2}). The utilized version of Weed Map Dataset is not the original version, but is a pre-processed one.
+\\[0.3cm]The architectures with which initialize the NN are no longer built inside the objective function, and thus need to be defined earlier. The architectures subject of this experiment are defined in the same article in which the original experiment of Weed Mapping was proposed \cite{WeedMap-PaperThesis}. During the experiment, those architecture will be referenced as “backbone”.
+\\[0.3cm]The Weed Map dataset was loaded using pre-defined function mentioned in their related section of the Methodology chapter (Sec.~\ref{sec:Lawin-3.4.1.2}). The utilized version of Weed Map Dataset is not the original version, but is a pre-processed one (the same of \cite{WeedMap-PaperThesis}).
 
 \subsubsection{Setup of the Studies}
 
@@ -724,7 +724,7 @@ The objective function, as always, is the same for each Study. The structure of 
 
 \subsection{Execution of the Experiment}
 
-The execution of each Study is handled by an OptunaRunner object for Optuna, which at the end of the optimization process save the results on a csv file.
+The execution of each Study is handled by an OptunaRunner object for Optuna, which at the end of the optimization process saves the results on a csv file.
 \\[0.3cm]The number of Trials executed for each Study was 64.
 
 \subsubsection{Score Results}

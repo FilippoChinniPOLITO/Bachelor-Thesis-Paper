@@ -264,17 +264,23 @@ The implementation of an Optuna Sampler with PSO will be discussed in the next s
 \subsection{High-Level Design}
 
 The components of the algorithm divides in 5 Python files: \texttt{PSO.py}, \texttt{pso\_pruners.py}, \texttt{pso\_runner.py}, \texttt{pso\_train\_utils.py} and \texttt{pso\_utils.py}.
-These code files contain only what the algorithm needs to work, meaning that they do not contain the actual code of the experiments. In fact, the algorithm code is designed to mimic the functioning of Optuna, so that the same code to set up the Optuna experiments can be used to set up and experiments with this implementation of PSO.
+These code files contain only what the algorithm needs to work, meaning that they do not contain the actual code of the experiments. In fact, the algorithm code is designed to mimic the functioning of Optuna, so that the same code to set up the Optuna experiments can be used to set up and experiments with this implementation of PSO. (Class Diagram in Fig.~\ref{fig:figure-3.2.1})
 % 
 % \myparagraph{Contents of the Main Code Files:}
 \\[0.3cm]The contents and the purpose of the main code files are the following:
 \begin{itemize}[itemsep=0.1cm]
     \item \texttt{PSO.py}: is the main file of the package, the actual core of the algorithm. It contains the PSO and Particle classes, together with some other private code.
     \item \texttt{pso\_pruners.py}: contains the definition of the Pruners of the mini library. At the current state there is only one implemented Pruner which is the Median Pruner. It mimics the functioning of Optuna's Pruners.
-    \item \texttt{pso\_runner.py}: contains the definition of the PSORunner class, which is a wrapper of the optimization process that manages potential errors, logging, and saving of the results.
+    \item \texttt{pso\_runner.py}: contains the definition of the \texttt{PSORunner} class, which is a wrapper of the optimization process that manages potential errors, logging, and saving of the results.
     \item \texttt{pso\_train\_utils.py}: contains the train loop function which should be used inside the objective function of the optimization process. It also contains some other private code.
     \item \texttt{pso\_utils.py}: contains some constants and utility functions, in particular the one applied to encode and decode the value the Hyperparameters from “internal” to “external” representations and vice-versa.
 \end{itemize}
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=15cm]{figures/figure-3.2.1.png}
+	\caption[Class Diagram of Custom PSO Implementation]{Class Diagram of the custom implementation of the Particle Swarm Optimization with the related support code.}
+	\label{fig:figure-3.2.1}
+\end{figure}
 
 \subsection{Components of the PSO Algorithm}
 
@@ -286,12 +292,12 @@ The \texttt{Particle} class is the representation of the concept of “Particle�
 % 
 % \myparagraph{Attributes:}
 \\[0.3cm]In this specific implementation, the Particle has the following attributes: \texttt{paticle\_id}, \texttt{position}, \texttt{velocity}, \texttt{personal\_best\_position}, \texttt{personal\_best\_score}.
-The position and the velocity of the particle are initialized with NumPy random function for arrays.
+The position and the velocity of the particle are initialized with randomly generated arrays.
 % 
 % \myparagraph{Methods:}
 \\[0.3cm]The particle has two methods which are \texttt{update\_velocity()} and \texttt{update\_position()}. 
-The version of the strategy for velocity update is the one with the Cognitive and the Social coefficients ($c_1$ and $c_2$). The random coefficients ($r_1$ and $r_2$) are chosen randomly with NumPy, whereas, the other two coefficients, together with the Inertia coefficient ($w$), are passed as an input.
-The strategy for position update is the standard one, with the exception that values which goes outside the Search Space are clipped with NumPy.
+The version of the strategy for velocity update is the one with the Cognitive and the Social coefficients ($c_1$ and $c_2$). The random coefficients ($r_1$ and $r_2$) are chosen randomly, whereas, the other two coefficients, together with the Inertia coefficient ($w$), are passed as an input.
+The strategy for position update is the standard one, with the exception that values which goes outside the Search Space are clipped (approximated to nearest bound value).
 
 \subsubsection{PSOTrial}
 
@@ -300,10 +306,10 @@ Its main objective is to carry metadata regarding each trial of the optimization
 % 
 % \myparagraph{Attributes:}
 \\[0.3cm]The \texttt{PSOTrial} object has the following attributes: \texttt{particle\_id}, \texttt{generation}, \newline\texttt{hyperparameters}, \texttt{datetime\_start}, \texttt{datetime\_complete}, \texttt{duration}, \texttt{score}, \texttt{state}, \texttt{user\_attrs}, \texttt{is\_pruned}, \texttt{pruner}, \texttt{last\_reported\_step}, \texttt{best\_reported\_score}.
-The last four attributes are related to the pruning system. The \texttt{user\_attrs} attribute is a \texttt{dict} which allows the user to set custom metadata in the trial, like it can be done in Optuna. The other attributes are self-explainatory.
+The last four attributes are related to the pruning system. The \texttt{user\_attrs} attribute is a map object which allows the user to set custom metadata in the trial, like it can be done in Optuna. The other attributes are self-explainatory.
 % 
 % \myparagraph{Methods:}
-\\[0.3cm]The methods realize functionalities such as the completion of a trial, the \texttt{to\_dict()} method, setters, and functions related to pruning.
+\\[0.3cm]The methods realize functionalities such as completion of a trial, conversion to map, setters, and functions related to pruning.
 
 \subsubsection{PSO}
 
@@ -313,8 +319,8 @@ One instance of the \texttt{PSO} class carries on a whole optimization process, 
 % \myparagraph{Attributes:}
 \\[0.3cm]The attributes of the \texttt{PSO} class are the following:
 \begin{itemize}[itemsep=0.1cm]
-    \item \texttt{objective\_function}: the objective function of the HPO process, to be passed at the init of the object just like in Optuna.
-    \item \texttt{bounds}: is a 2D NumPy Array which contains the lower bounds and the upper bounds of each non-categorical hyperparameter.
+    \item \texttt{objective\_function}: the objective function of the HPO process, to be passed at the initialization of the object just like in Optuna.
+    \item \texttt{bounds}: is a 2D array which contains the lower bounds and the upper bounds of each non-categorical hyperparameter.
     \item \texttt{hps}: contains the mapping between the hyperparameter name and the index inside the inner arrays of bounds.
     \item \texttt{num\_particles}: is an hyperparameter of the algorithm itself; represents the number of Particles in the Swarm.
     \item \texttt{max\_generations}: is another hyperparameter of the algorithm itself; represents the maximum number of iterations (Generations) of the algorithm.
@@ -340,17 +346,23 @@ At the end of the whole loop, the method ends, returning the best global hyperpa
 Hyperparameter Optimization is expensive, and tools like Optuna not only exists to make the process more efficient but also to simplify the setup of the optimization.
 Nevertheless, especially when the experiments grow in complexity, even tools like Optuna start to show weaknesses and robustness problems.
 \\[0.3cm]Therefore, it is necessary to use Optuna to its full potential, gaining advantage from its additional abilities such as the Storage. Moreover, an infrastructure beyond Optuna is also necessary to handle error throwing and to make persistent the data which Optuna Storage does not memorize.
-\\[0.3cm]These extras are not always easy to setup, or a least requires a setup for each Study. This, added to the already present normal setup of the Study, with the creation of the object and the launch of the optimization, make the Study initialization process very heavy.
+\\[0.3cm]These extras are not always easy to setup, or at least require a setup for each Study. This, added to the already present normal setup of the Study, with the creation of the object and the launch of the optimization, make the Study initialization process very heavy.
 This would be perfectly fine in normal circumstances, but the goal of the proposed experiments, is to compare the different optimization techniques and sampling algorithms, thus the previously described workflow should be repeated for each Study.
-\\[0.3cm]The solution is to abstract some functionalities of Optuna, basically wrapping them, so as to lighten the quantity of code to write and improve performance and reliability of the processes.
+\\[0.3cm]The solution is to abstract some functionalities of Optuna, basically wrapping them, so as to lighten the quantity of code to write and improve performance and reliability of the processes. (Object Diagram in Fig.~\ref{fig:figure-3.3.1})
 \\[0.3cm]All the code mentioned in this section refers to the package \texttt{/utils/} of the code repository \cite{Repository-THESIS}.
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=15cm]{figures/figure-3.3.1.png}
+	\caption[Object Diagram of Optuna Wrapping]{Object Diagram of the “wrapping”, or enhancement, of Optuna functionalities.}
+	\label{fig:figure-3.3.1}
+\end{figure}
 
 \subsection{Optuna Wrapping}
 
-The two main concerns relatively to the abstraction of Optuna functionality are the initialization of the Study, and the running of the optimization.
-The proposed infrastructure which wraps those two functionalities, has various objectives: implement the persistency (for both Optuna and additional metadata such as logs), handle the errors, save the execution state of samplers and pruners (which Optuna does not do natively), log and save the results in various formats, and other capabilities (like copying a Study to another DB, loading a Study from a DB, deleting a Study).
+The two main concerns relatively to the abstraction of Optuna's functionalities are the initialization of the Study and the running of the optimization.
+The proposed infrastructure which wraps those two functionalities, has various objectives: to implement persistency (for both Optuna and additional metadata such as logs), to handle errors, to save the execution state of samplers and pruners (which Optuna does not do natively), to log and save the results in various formats, and other capabilities (like copying a Study to another DB, loading a Study from a DB, deleting a Study).
 \\[0.3cm]As a result, by abstracting the process of creation and run of the optimization, the code is totally reusable for each Sampler, therefore making each singular experiment comparable to one other.
-\\[0.3cm]The two main files of the wrapping are \texttt{optuna\_study\_creator.py} and \texttt{optuna\_runner.py}.
+\\[0.3cm]The main files of the wrapping are \texttt{optuna\_study\_creator.py} and \texttt{optuna\_runner.py}.
 
 \subsubsection{Optuna Study Creator}
 
@@ -419,14 +431,27 @@ As mentioned in the section of the Custom PSO Implementation (Sec.~\ref{sec:Cust
 \subsubsection{Initialization}
 The Sampler requires two initialization parameters, which are the number of particles, and the number of generations. 
 Even if at the current state of the implementation there are no integrity checks, these values should be compatible with number of trials to execute, which is a parameter of the Study running function of Optuna. 
-\\[0.3cm]As soon as the first trial starts the Swarm is initialized; it is a list of Particles, where a Particle is defined in the same exact way described in the section of Custom Implementation of PSO (Sec.~\ref{sec:CustomImplementationOfPSO-3.2}).
+\\[0.3cm]As soon as the first trial starts, the Swarm is initialized; it is a list of Particles, where a Particle is defined in the same exact way described in the section of Custom Implementation of PSO (Sec.~\ref{sec:CustomImplementationOfPSO-3.2}).
 \\[0.3cm]Until a trial is completed or pruned, Optuna calls the \texttt{sample\_indipendent()} method, which samples the value for the hyperparameters randomly with a \texttt{RandomSampler}.
 \\[0.3cm]After the completion of the first trial, the Search Space is also initialized. The Search Space cannot be initiated earlier by Optuna because the current possible values ranges of the Hyperparameters are unknown to Optuna before running the Objective Function at least once.
+\\[0.3cm]The Sequence Diagram of the \texttt{BaseSampler} (Fig.~\ref{fig:figure-3.3.1}) allows to understand how the \texttt{PSOSampler} interacts with the rest of the Optuna components and execute the sampling.
+% \begin{figure}[t]
+% 	\centering
+% 	\includegraphics[width=15cm]{figures/figure-3.3.3.png}
+% 	\caption[Class Diagram of PSOSampler]{Class Diagram of the implementation of the PSOSampler.}
+% 	\label{fig:figure-3.3.3}
+% \end{figure}
 
 \subsubsection{Sampling}
 
 At the start of each Trial, the \texttt{before\_trial()} method is called. There, depending on its number, is assigned to the Trial a specific Particle and the current generation.
 \\[0.3cm]The Sampling of each candidate tuple of Hyperparameters happens through the \newline\texttt{sample\_relative()} method, which after checking what Particle the current Trial refer to, get the position of the Particle and converts its coordinates in HPs values.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{figures/figure-3.3.2.png}
+	\caption[Sequence Diagram of Optuna's Samplers]{Sequence Diagram of the interaction between Optuna's Samplers and the rest of the Optuna's components. Through the diagram, is possibile to understand how a sampler in Optuna behaves at the start of a Trial. Source: \cite{Optuna}}
+	\label{fig:figure-3.3.2}
+\end{figure}
 
 \subsubsection{After Trial}
 
@@ -461,7 +486,7 @@ Both the Architecture and the Activation Function are initialization inputs.
 
 \subsubsection{Lawin}\label{sec:Lawin-3.4.1.2}
 
-Lawin is complex Deep Learning model, in particular is a Vision Transformer, specialized in Semantic Segmentation and applied for Drone Vision problems.
+Lawin is a complex Deep Learning model, in particular is a Vision Transformer, specialized in Semantic Segmentation and applied for Drone Vision problems.
 Lawin was developed for this article \cite{WeedMap-PaperThesis}, and its implementation can be found in the relative repository \cite{WeedMap-Repository}.
 % 
 % \myparagraph{Architecture of Lawin:}
@@ -498,7 +523,7 @@ Focal Loss is calculated as follows:
 \begin{equation}
 	FL=-w_c (1-f(x)_c ) log(f(x)_c)
 \end{equation}
-Where $f(x)_c$ is the probability of the true class predicted by the model and $w_c$ is the corresponding class weight.
+In the formula $f(x)_c$ is the probability of the true class predicted by the model and $w_c$ is the corresponding class weight.
 An interpretation of this formula is that different weights are given to different classes of the classification task. This is to address the class imbalance, particularly in scenarios where some classes are significantly more frequent than others.
 \\[0.3cm]A more detailed explanation of Focal Loss is the earlier mentioned article \cite{WeedMap-PaperThesis}. The original form of Focal Loss was presented in this other article \cite{FocalLoss}.
 

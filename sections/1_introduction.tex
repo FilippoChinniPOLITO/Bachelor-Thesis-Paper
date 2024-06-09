@@ -31,8 +31,10 @@
 \newacronym{mopso}{MOPSO}{- Multi-Objective Particle Swarm Optimization}
 \newacronym{dpso}{DPSO}{- Discrete Particle Swarm Optimization}
 \newacronym{mlp}{MLP}{- Multi-Layer Perceptron}
-\newacronym{RAM}{RAM}{- Random Access Memory}
-\newacronym{SSD}{SSD}{- Solid State Drive}
+\newacronym{ram}{RAM}{- Random Access Memory}
+\newacronym{ssd}{SSD}{- Solid State Drive}
+\newacronym{mit}{MiT}{- Mix Transformer}
+\newacronym{cnn}{CNN}{- Convolutional Neural Network}
 
 % \newglossaryentry{chi}{
 %   name={$\textbf{$\chi$}$},
@@ -60,26 +62,29 @@
 
 \chapter{Introduction}
 
-The introduction should present the topic of the thesis to specify the purpose and importance of the work. It is common practice to have a summary at the beginning of each chapter, like this one.
+In Machine Learning, the process of training a model involves the optimization of a set of parameters, called Hyperparameters, which are not learned during the training process. The optimization of these Hyperparameters is a crucial step in the development of a machine learning model, as it can significantly affect the performance of the model. The process of finding the best Hyperparameters for a model is called Hyperparameter Optimization (HPO).
+\\[0.3cm]At the current state of research, HPO is a flourishing field, with many different techniques available, ranging from simple traditional manual tuning to more advanced automated optimization algorithms.
 
 \section{Aims and Objectives}
 
-The introduction should familiarize the reader with the problem to be addressed and describes:
-\begin{itemize}
-    \item The current level of knowledge (with references) as a basis for the work;
-    \item The knowledge gap the study wants to fill;
-    \item Outline of the objectives without anticipating results.
+The aim of this thesis is to explore the field of HPO, by testing and comparing different optimization algorithms.
+The objectives of the thesis are:
+\begin{itemize}[itemsep=0.1cm]
+	\item To establish the importance of HPO in Machine Learning and its impact on the training process of a model;
+	\item To evaluate the effectiveness of different HPO algorithms, using an existing library for HPO;
+	\item To adapt an existing optimization algorithm to make it suitable for HPO, and test its effectiveness;
+	\item To integrate the adapted algorithm into the existing library for HPO, and test it on different datasets and models;
+	\item To test the effectiveness of the HPO algorithms on a more complex dataset, testing limits and advantages of HPO in a more challenging context. Specifically on a real world problem, in the field of Drone Vision for agriculture.
 \end{itemize}
-And possibly:
-\begin{itemize}
-	\item The chosen approach;
-	\item The structure of the thesis.
-\end{itemize}
+In order to achieve these objectives, a series of experiments will be conducted, where different techniques will be chosen (or developed), analysed and compared. The experiments will be performed mainly on simpler datasets and models to make the process more manageable and to to shift the focus on the optimization algorithms themselves rather than on specific problems.
+\\[0.3cm]Subsequently, with regard to the Drone Vision problem, the experiment will be conducted on a more complex dataset and model. The reason Drone Vision is sensitive to the optimization of Hyperparameters is that the functioning of a Machine Learning model, especially Neural Networks which are the most used models in Drone Vision, is highly energetically and computationally expensive. Usually drones have limited computational resources, therefore they can hardly afford to run a complex model to perform tasks such as Semantic Segmentation. The proposed methodology aims to perform a weighted Hyperparameter Optimization, where complexity of the model is penalized, so as to find the best trade-off between performance and computational cost. 
 
 \section{Overview of the Thesis}
 
-The rest of this thesis is structured as follows: 
-\begin{itemize}
-    \item Chapter~2 discusses background knowledge\ldots
-    \item \ldots
+The rest of the thesis is structured as follows:
+\begin{itemize}[itemsep=0.1cm]
+    \item \textbf{Chapter 2} provides an overview of the background knowledge about the topic of Hyperparameter Optimization, presenting the state of the art.
+    \item \textbf{Chapter 3} describes the methodology used in the experiments, including the models and the algorithms.
+    \item \textbf{Chapter 4} presents the results of the experiments, and discusses them.
+    \item \textbf{Chapter 5} concludes the thesis, summarizing the results and suggesting future work.
 \end{itemize}
