@@ -62,7 +62,7 @@
 
 \chapter{Introduction}
 
-In Machine Learning, the process of training a model involves the optimization of a set of parameters, called Hyperparameters, which are not learned during the training process. The optimization of these Hyperparameters is a crucial step in the development of a machine learning model, as it can significantly affect the performance of the model. The process of finding the best Hyperparameters for a model is called Hyperparameter Optimization (HPO).
+In Machine Learning, the process of training a model involves the optimization of a set of parameters, called Hyperparameters, which are not learned during the training process. The optimization of these hyperparameters is a crucial step in the development of a machine learning model, as it can significantly affect the performance of the model. The process of finding the best hyperparameters for a model is called Hyperparameter Optimization (HPO).
 \\[0.3cm]At the current state of research, HPO is a flourishing field, with many different techniques available, ranging from simple traditional manual tuning to more advanced automated optimization algorithms.
 
 \section{Aims and Objectives}
@@ -74,10 +74,10 @@ The objectives of the thesis are:
 	\item To evaluate the effectiveness of different HPO algorithms, using an existing library for HPO;
 	\item To adapt an existing optimization algorithm to make it suitable for HPO, and test its effectiveness;
 	\item To integrate the adapted algorithm into the existing library for HPO, and test it on different datasets and models;
-	\item To test the effectiveness of the HPO algorithms on a more complex dataset, testing limits and advantages of HPO in a more challenging context. Specifically on a real world problem, in the field of Drone Vision for agriculture.
+	\item To test the effectiveness of the HPO algorithms on a more complex dataset, testing the limits and advantages of HPO in a more challenging context. Specifically on a real world problem, in the field of Drone Vision for agriculture.
 \end{itemize}
-In order to achieve these objectives, a series of experiments will be conducted, where different techniques will be chosen (or developed), analysed and compared. The experiments will be performed mainly on simpler datasets and models to make the process more manageable and to to shift the focus on the optimization algorithms themselves rather than on specific problems.
-\\[0.3cm]Subsequently, with regard to the Drone Vision problem, the experiment will be conducted on a more complex dataset and model. The reason Drone Vision is sensitive to the optimization of Hyperparameters is that the functioning of a Machine Learning model, especially Neural Networks which are the most used models in Drone Vision, is highly energetically and computationally expensive. Usually drones have limited computational resources, therefore they can hardly afford to run a complex model to perform tasks such as Semantic Segmentation. The proposed methodology aims to perform a weighted Hyperparameter Optimization, where complexity of the model is penalized, so as to find the best trade-off between performance and computational cost. 
+In order to achieve these objectives, a series of experiments will be conducted, where different techniques will be chosen (or developed), analysed and compared. The experiments will be performed mainly on simpler datasets and models to make the process more manageable and to focus attention on the optimization algorithms themselves rather than on specific problems.
+\\[0.3cm]Subsequently, with regard to the Drone Vision problem, the experiment will be conducted on a more complex dataset and model. The reason Drone Vision is sensitive to the optimization of hyperparameters is that the functioning of a Machine Learning model, especially Neural Networks which are the most used models in Drone Vision, is highly energetically and computationally expensive. Usually, drones have limited computational resources, therefore, they can hardly afford to run a complex model to perform tasks such as Semantic Segmentation. The proposed methodology aims to perform a weighted Hyperparameter Optimization, where the complexity of the model is penalized, so as to find the best trade-off between performance and computational cost. 
 
 \section{Overview of the Thesis}
 
