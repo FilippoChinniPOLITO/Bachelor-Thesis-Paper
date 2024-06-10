@@ -386,7 +386,7 @@ The runner checks if there is any log file already present, creates the log file
 
 \subsubsection{Other Optuna-Related Code}
 
-As mentioned earlier, the proposed experiments create and run multiple optimizations, therefore, in addition to the strategies explained so far, another part of the code which needs to be the most standardized and abstract as possible is the Objective Function.
+As mentioned earlier, the proposed experiments create and run multiple optimizations, therefore, in addition to the strategies explained so far, another part of the code which needs to be as much standardized and abstract as possible is the Objective Function.
 \\[0.3cm]The following files in the \texttt{/utils/} package contain code that helps with this.
 \begin{itemize}[itemsep=0.1cm]
     \item \texttt{train\_loop.py}: contains the function that executes the training of the model object of the trial. Inside the loop are also defined the instructions related to pruning, early stopping, logging, and data persistence.
@@ -547,6 +547,17 @@ The performance is evaluated using a specific Metric. In order for this code to 
 
 In the \texttt{full\_train\_loop()} function, the PyTorch model is fully trained, iterating over the maximum number of epochs, and executing \texttt{train\_step()} and \texttt{eval\_step()} at each iteration.
 The function also contains instructions related to pruning, early stopping, logging, and data persistence.
+
+\subsection{Regularization}
+
+Regularization is a technique used to prevent overfitting in Neural Networks. More generally, it is a technique that can be used in multi-objective optimization, to penalize certain characteristics of a candidate solution by lowering its score.
+\\[0.3cm]In the proposed experiments, the Regularization technique has the goal of penalizing the complexity of the model, in terms of the width and depth of the hidden layers. Basically, a penalty term is applied referring to the complexity of the model's architecture.
+\\[0.3cm]In the experiments, as all of them share a secondary objective to reduce the complexity of the found solutions, a penalization toward architecture complexity was applied. Whenever “Score” is mentioned, it refers to the regularized score, rather than the specific metric score (Accuracy or F1). Which is calculated as follows:
+\begin{equation}
+	Score = ms - \lambda \cdot complexity
+\end{equation}
+In the formula: $ms$ is the metric score (could be Accuracy or F1), $\lambda$ (\texttt{lambda}) is the Regularization coefficient (which is passed as input) and $complexity$ is the complexity of the model, which is calculated as the sum of the number of neurons in each hidden layer.
+\\[0.3cm]The Regularization was implemented with a \texttt{Regularizer} class defined in the\newline\texttt{/utils/optimization/regularizer.py} file of the code repository \cite{Repository-THESIS}.
 
 \subsection{Other Training-Related Objects}
 
