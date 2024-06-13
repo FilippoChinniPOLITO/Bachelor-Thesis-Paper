@@ -21,7 +21,7 @@ The first is to familiarize with the concepts of HPO from a physical implementat
 The second reason is to establish, if ever needed, the necessity of Hyperparameter Optimization; to demonstrate that HPO can actually improve the final performance of a ML experiment by finding the best Hyperparameters to train the model subject of the experiment with.
 \\[0.3cm]Note that in this preliminary experiment, everything was developed with simple vanilla Python, without the use of the infrastructure described in the previous chapter (Chapter~\ref{sec:Chapter3-Methodology}).
 
-\myparagraph{Hardware used for the Experiment:}
+\myparagraph{System used for the Experiment:}
 The hardware that was utilized to run this experiment is the following:
 \begin{itemize}[itemsep=0.1cm]
     \item CPU: Intel Core i5-8265U CPU @ 1.60GHz (4-core, 8 thread)
@@ -94,14 +94,14 @@ This simple experiment with its results outlines how hyperparameter optimization
 \\[0.3cm]The gained 1.6\% accuracy on the Test Set may seem like a little improvement, but is remarkable, especially when the dataset is composed of a very large number of observations.
 \\[0.3cm]These results, additionally, confirm another aspect of HPO, which is the ability to improve the performance of an experiment without interfering with the model or the dataset.
 
-\section{Experiment 2 - Comparison of Optuna's Samplers on MNIST}\label{sec:Experiment2-4.2}
+\section[Experiment 2 - Comparison of Optuna's Samplers]{Experiment 2 - Comparison of Optuna's Samplers on MNIST}\label{sec:Experiment2-4.2}
 
 The objective of this experiment is to evaluate the performance of different Hyperparameter Optimization algorithms so as to gain general knowledge about the capacity of each in preparation for subsequent, more complex experiments.
 \\[0.3cm]In order to make the results and the methodology as much scientifically comparable as possible, rather than implementing various Samplers from scratch individually, a library for HPO is used.
 \\[0.3cm]The chosen library is Optuna, which, as described in previous sections, includes a few Samplers already implemented, with the same style and same preconditions, making each optimization perfectly comparable to one another.
 \\[0.3cm]As the idea is to have results that are as much general as possible, and because such “optimization of optimizations” is inevitably enormously expensive, a simple dataset is considered, which is MNIST.
 
-\myparagraph{Hardware used for the Experiment:}
+\myparagraph{System used for the Experiment:}
 The hardware that was utilized to run this experiment is the following:
 \begin{itemize}[itemsep=0.1cm]
 	\item CPU: Intel Core i7-10700K CPU @ 3.80GHz
@@ -324,13 +324,13 @@ For what concerns the second objective of the experiment, which is to find light
 \\[0.3cm]The theoretical hypothesis was that, at the same total number of neurons, deeper architectures would have reached better scores. The results suggest, however, that there is no difference between the two, sometimes even linear architectures have achieved a good score.
 \\[0.3cm]From these results, it can be concluded that the experiment, and especially the model, are too simple for the score to be significantly different between deeper and less deep networks. Deeper networks do not result in an increase in generalization power if the model and the experiment are excessively simple.
 
-\section{Experiment 3 - Comparison between a Custom PSO implementation and Optuna}
+\section[Experiment 3 - Comparison: Custom PSO vs Optuna]{Experiment 3 - Comparison between a Custom PSO implementation and Optuna}
 
 The goal of this experiment is to test and evaluate the functioning and performance of the custom implementation of Particle Swarm Optimization, adapted for HPO in a way that is similar to Optuna, and compare such performance to that of the samplers of Optuna.
 \\[0.3cm]In order to make the results and the methodology as much scientifically comparable as possible, as described in the methodology chapter (Sec.~\ref{sec:CustomImplementationOfPSO-3.2}), the implementation of PSO replicates almost perfectly the functioning of Optuna and displays the result in the same exact way.
 \\[0.3cm]As the goal of the experiment is primarily to compare a new technique to existent techniques, and therefore would be excessive to operate on a complex and expensive problem, a simple dataset is considered, which again is MNIST.
 
-\myparagraph{Hardware used for the Experiment:}
+\myparagraph{System used for the Experiment:}
 The hardware that was utilized to run this experiment is the same as Experiment 2 (Sec.~\ref{sec:Experiment2-4.2}).
 
 \subsection{Preparation of the Experiment}
@@ -426,7 +426,7 @@ After comparing the results from the \texttt{PSO\_optimization} Study, \texttt{R
 \\[0.3cm]The comparison with \texttt{RandomSampler} clearly shows that the PSO is not sampling randomly, but is following a logic, based on the PSO algorithm.
 \\[0.3cm]The comparison with \texttt{TPESampler} allows to say that PSO is also extremely well-performing, and can be used in the same way as the TPESampler. The former has indeed found a greater number of very good solutions, but this is also because PSO has the tendency to never stop the exploration; in fact, watching the trial number around which the two algorithms started to find good solutions, it is almost the same; the main difference is a result of the characteristic of the TPE to focus on exploitation toward the last trials, which in this case led to slightly better results compared to PSO.
 
-\section{Experiment 4 - Comparison between a PSO Sampler and Optuna's Samplers}
+\section[Experiment 4 - PSOSampler vs Optuna's Samplers]{Experiment 4 - Comparison between a PSO Sampler and Optuna's Samplers}
 
 In the previous experiment, a custom implementation of PSO external to Optuna was tested, evaluated, and compared to the performance of Optuna.
 \\[0.3cm]This experiment instead, aims to test, evaluate, and compare the \texttt{PSOSampler}, a Sampler developed within Optuna that implements the PSO algorithm, described in the Methodology chapter in the related section (Sec.~\ref{sec:CustomOptunaPSOSampler-3.3.2}).
@@ -434,7 +434,7 @@ In the previous experiment, a custom implementation of PSO external to Optuna wa
 \\[0.3cm]The experiment is divided into two sub-experiments, with the same approach and the same goals. The only difference between the two is that in the first Pruning is disable, in the second is enabled.
 \\[0.3cm]As the goal of the experiment is primarily to compare a new technique to existent techniques, and therefore would be excessive to operate on a complex and expensive problem, a simple dataset is considered, which again is MNIST.
 
-\myparagraph{Hardware used for the Experiment:}
+\myparagraph{System used for the Experiment:}
 The hardware that was utilized to run this experiment is the same as Experiment 2 (Sec.~\ref{sec:Experiment2-4.2}).
 
 \subsection{Preparation of the Experiment}
@@ -589,7 +589,7 @@ In this experiment, being all the sub-experiments part of Optuna, it was possibl
 	\label{fig:figure-4.4.1}
 \end{figure}
 
-\section{Experiment 5 - Hyperparameter Optimization on Weed Map Dataset}
+\section[Experiment 5 - HPO on Weed Map Dataset]{Experiment 5 - Hyperparameter Optimization on Weed Map Dataset}
 
 The goal of this experiment is to perform a Hyperparameter Optimization, using the samplers from the previous experiments, for a Weed Mapping problem.
 \\[0.3cm]In Drone Vision, Semantic Segmentation is applied to identify immediately and automatically the different categories of “object” inside a cultivated field (crop, terrain, weed). But drones, especially those used for agriculture, do not carry powerful computers able to run complex Neural Networks Models.
@@ -597,7 +597,7 @@ The goal of this experiment is to perform a Hyperparameter Optimization, using t
 \\[0.3cm]The model utilized for this experiment is Lawin, which is introduced in its relative section in the Methodology chapter (Sec.~\ref{sec:Lawin-3.4.1.2}).
 \\[0.3cm]The Dataset of the experiment is Weed Map, a popular dataset for Drone Vision.
 
-\myparagraph{Hardware used for the Experiment:}
+\myparagraph{System used for the Experiment:}
 The hardware that was utilized to run this experiment is the following:
 \begin{itemize}[itemsep=0.1cm]
 	\item CPU: AMD EPYC 7V12(Rome) @ 2.45GHz (4-core)
@@ -731,7 +731,7 @@ The execution of each Study is handled by an OptunaRunner object for Optuna, whi
 
 The best score achieved by the \texttt{RandomSampler} is 70\%; the top trials have as backbone MiT-L1 and MiT-L2; F1-Score of the best trials is around 69\%-74\%.
 \\[0.3cm]The best score achieved by the \texttt{TPESampler} is 74.4\%; the top trials have as backbone MiT-L2; the F1-Score of the best trials is around 70\%-77\%.
-\\[0.3cm]The best score achieved by the \texttt{PSOSampler} is 67\%; the top trials have as backbone MiT-L1; the F1-Score of the best trials is around 68\%-75\%.
+\\[0.3cm]The best score achieved by the \texttt{PSOSampler} is 70.1\%; the top trials have as backbone MiT-L2 (the best one MiT-L1); the F1-Score of the best trials is around 70\%-75\%.
 \\[0.3cm]For all three samplers, the best trials in terms of F1-Score have as backbones MiT-B0 and MiT-LD.
 
 \subsubsection{Hyperparameters Results}
@@ -757,10 +757,12 @@ In fact, the proposed solution, uses the most lightweight among all the Backbone
 
 \subsubsection{Analysis of the Performance of the Samplers}
 
-The \texttt{RandomSampler} worked as usual, there does not seem to be any problem with its functioning. The \texttt{TPESampler} found good solutions, therefore, it could be argued that it is working as supposed. The \texttt{PSOSampler} on the other hand, showed results beneath expectations.
+The \texttt{RandomSampler} worked as usual, there does not seem to be any problem with its functioning. The \texttt{TPESampler} found good solutions, therefore, it could be argued that it is working as supposed. The \texttt{PSOSampler} on the other hand, showed results slightly below expectations.
 \\[0.3cm]The reason \texttt{PSOSampler} underperformed in this particular experiment, is because of the way pruning influences the sampler in more complex problems like this experiment.
-Differently from \texttt{TPESampler}, \texttt{PSOSampler} also considers the pruned trials when updating its local and global optimum positions. Differently from previous experiments, in this one the score of a pruned trial is often very high, sometimes also between the highest scores (this is because there is a lot of difference between Validation Set and Test Set evaluations, and the latter is performed only if a trial is not pruned). This confuses, or better, misleads the particles of PSO, resulting in the algorithm finding low quality results.
-\\[0.3cm]This is easily fixable, but given that \texttt{TPESampler} already found the best results, and the cost of the execution of a single Study is outrageously high, this remains a recommendation for the future.
+Differently from \texttt{TPESampler}, where there is only a “global perspective”, \texttt{PSOSampler} suffers a significantly more from pruning.
+This is because the PSO algorithm is based on the concept of particles that move in a space, and the pruning mechanism removes some of the information that the particles need to move correctly.
+Specifically, the trials of the particles that are not near the global optimum are pruned most of the time, not allowing the particles to update their Local Optimum. Thus, the Cognitive Factor of those particles becomes basically useless, and only the Social Factor matters. This causes a slowdown in the convergence of the algorithm, leading to worse results compared to other samplers like \texttt{TPESampler}.
+\\[0.3cm]Potential fixes for this problem could be to remove the pruning mechanism for the \texttt{PSOSampler} (but this would make the process very computationally expensive), or to modify the pruning mechanism to be less aggressive, to allow the worst-positioned particles to continue to explore the space.  
 
 \subsubsection{Analysis of the Quality of Results}
 

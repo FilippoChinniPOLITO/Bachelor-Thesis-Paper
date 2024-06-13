@@ -1,6 +1,6 @@
 \chapter{Methodology}\label{sec:Chapter3-Methodology}
 
-This methodology chapter serves to introduce strategies, implementations, models and approaches which are put into practice in the Experiments chapter (Chapter~\ref{sec:Chapter4-Results}). Therefore, it will include:
+This methodology chapter serves to introduce strategies, implementations, models and approaches that are put into practice in the Experiments chapter (Chapter~\ref{sec:Chapter4-Results}). Therefore, it will include:
 \begin{itemize}[itemsep=0.1cm]
     \item \textbf{Particle Swarm Optimization:} an explanation of the most important of the sampling techniques utilized in the experiments.
     \item \textbf{Custom Implementation of PSO:} a detailed description of the design of the custom implementation of the algorithm, and some insights on the actual code implementation.
@@ -12,18 +12,19 @@ This methodology chapter serves to introduce strategies, implementations, models
 All the implementation details listed throughout this chapter refer to the following repository: \cite{Repository-THESIS}.
 The repository is divided into two main packages, \texttt{utils} and \texttt{experiments}.
 \\[0.3cm]The \texttt{experiments} package contains the code for the execution of the actual experiments and additional “private” code which is specific for the execution of the determined experiment.
-\\[0.3cm]The \texttt{utils} package contains code which is common to all the experiments, in order to make the project more maintainable and modularized.
+\\[0.3cm]The \texttt{utils} package contains code that is common to all the experiments, in order to make the project more maintainable and modularized.
+\\[0.3cm]All the code is written in Python (version 3.8 to 3.12). The required Libraries and Dependencies are listed in the \texttt{requirements.txt} file in the root of the repository.
 
 \section{Particle Swarm Optimization}
 
 \subsection{Introduction to Particle Swarm Optimization}
 
-Particle Swarm Optimization (PSO) is an optimization approach originally proposed by Kennedy and Eberhart in 1995 \cite{Tesi-3.3}. The idea was to replicate the behaviour of certain animal species which moves in groups, such as flocks of birds or shoals of fish.
+Particle Swarm Optimization (PSO) is an optimization approach originally proposed by Kennedy and Eberhart in 1995 \cite{Tesi-3.3}. The idea was to replicate the behaviour of certain animal species which move in groups, such as flocks of birds or shoals of fish.
 \\[0.3cm]The reason is the assumption that each singular individual in the group can take advantage from the collective experience of the entire group; basically, each individual can benefit from what it learns from other individuals, and in the same way, it can share its discoveries with the other individuals \cite{Tesi-3.1}.
 
 \subsubsection{Particle Swarm Optimization as an Optimization Problem}
 
-Translating the previous explained behaviour into specific terms, each individual can be interpreted as an agent which “flies” in the Search Space, where each physical position is a candidate solution in the n-dimensional Search Space, and the best solution found by the entire group is the best solution.
+Translating the previously explained behaviour into specific terms, each individual can be interpreted as an agent which “flies” in the Search Space, where each physical position is a candidate solution in the n-dimensional Search Space, and the best solution found by the entire group is the best solution.
 \\[0.3cm]The best solution found by the entire group is likely not the real global optimal solution. However, it is a solution that is near the global optimum.
 % 
 % \myparagraph{Formalization of Particle Swarm Optimization:}
@@ -41,8 +42,8 @@ After a certain number of iterations, the maximum (or minimum) value found as th
 
 At the start of each iteration, each Particle has a position $x_i(t)$ and a velocity $v_i(t)$.
 
-\myparagraph{Update of Particles:}\label{sec:UpdateOfParticles-3.1.1}
-At the subsequent iteration, the update function will update the position and velocity of a Particle in accordance with the following rules:
+\myparagraph{Update of Particles:}
+\label{sec:UpdateOfParticles-3.1.1}At the subsequent iteration, the update function will update the position and velocity of a Particle in accordance with the following rules:
 \begin{equation}
 	v_i(t+1) = \alpha v_i(t) + \beta_1(x_i^{(local)}(t) - x_i(t)) + \beta_2(x^{(global)}(t) - x_i(t))
 \end{equation}
@@ -64,7 +65,7 @@ Whenever Local Optimum (for each Particle) and Global Optimum (for the whole Swa
 \myparagraph{Advantages of PSO Algorithm:}
 Differently from other more traditional optimization algorithms, PSO does not depend on the gradient of the objective function.
 Basically, unlike Gradient Descent, the movement of a Particle does not depend on which direction is “uphill” or “downhill”, because the Particle is guided by Local Optimum and Global Optimum only.
-\\[0.3cm]This advantage makes PSO algorithms suitable for problems which objective functions are non-differentiable. Thus, it is an algorithm appliable to a wider range of optimization problems.
+\\[0.3cm]This advantage makes PSO algorithms suitable for problems which objective functions are non-differentiable. Thus, it is an algorithm applicable to a wider range of optimization problems.
 Another advantage is that PSO is an “Embarrassingly Parallel” problem; a type of problem particularly easy to parallelize, as each particle can be updated in parallel.
 
 \myparagraph{Visual Example of PSO:}
@@ -177,7 +178,7 @@ Particle Swarm Optimization adheres to all five principles.
 	\item \textbf{Quality Principle:} “The population should be able to respond to quality factors in the environment”.
 	The PSO adheres to this principle because the population, the Swarm, tends to follow the two positions Local Optimum and Global Optimum, which are the environment's factors.
 	\item \textbf{Diverse Response Principle:} “The population should ensure enough diversity in its responses”.
-	The PSO adheres to this principle because the responses range from the Local Optimum of the Particle and the Global Optimum of the Swarm, ensuring the diversity.
+	The PSO adheres to this principle because the responses range from the Local Optimum of the Particle and the Global Optimum of the Swarm, ensuring diversity.
 	\item \textbf{Stability Principle:} “The population should not change its behaviour at each environmental change”.
 	The PSO adheres to this principle because the population only changes when the Global Optimum is updated and is therefore stable.
 	\item \textbf{Adaptability Principle:} “The population should be able to change its behaviour when it is worth the computational price”.
@@ -261,7 +262,8 @@ While this problem of explainability is potentially fixable, without being able 
 The implementation of an Optuna Sampler with PSO will be discussed in the next section. In this section it will be examined the design of the PSO algorithm from scratch.
 \\[0.3cm]All the code mentioned in this section refers to the package\newline\texttt{/experiments/PSO\_experiment/backend/} of the code repository \cite{Repository-THESIS}.
 
-\subsection{High-Level Design}
+% \subsection{High-Level Design}
+\subsection{Implementation Details}
 
 The components of the algorithm are divided into five Python files: \texttt{PSO.py},\newline\texttt{pso\_pruners.py}, \texttt{pso\_runner.py}, \texttt{pso\_train\_utils.py} and \texttt{pso\_utils.py}.
 These code files contain only what the algorithm needs to work, meaning that they do not contain the actual code of the experiments. In fact, the algorithm code is designed to mimic the functioning of Optuna, so that the same code to set up the Optuna experiments can be used to set up and perform experiments with this implementation of PSO. (Class Diagram in Fig.~\ref{fig:figure-3.2.1})
